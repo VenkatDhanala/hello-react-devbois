@@ -1,3 +1,4 @@
+import React from 'react'
 import DeveloperBio from './DeveloperBio';
 
 function DisplayBios(props){

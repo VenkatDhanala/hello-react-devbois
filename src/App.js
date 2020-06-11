@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import DisplayBios from './DisplayBios';
+import AddDeveloper from './AddDeveloper';
+import Developer from './Developer';
 
 class App extends Component{
   constructor(props){
@@ -36,7 +38,8 @@ class App extends Component{
           >
             Learn React
           </a>
-          <DisplayBios />
+          <DisplayBios developers={this.state.developers}/>
+          <AddDeveloper addDeveloper={this.addDeveloper}/>
         </header>
       </div>
     );
