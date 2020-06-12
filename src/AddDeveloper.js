@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Developer from './Developer';
+import { withRouter } from 'react-router-dom';
 
 class AddDeveloper extends Component {
     constructor(props){
@@ -16,7 +17,6 @@ class AddDeveloper extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log(target);
 
         this.setState({
             [name]:value
@@ -45,6 +45,7 @@ class AddDeveloper extends Component {
             yearStarted: null
         });
         document.getElementById('devForm').reset();
+        this.props.history.push('/bios');
     }
 
     render() {
@@ -81,4 +82,4 @@ class AddDeveloper extends Component {
     }
 }
 
-export default AddDeveloper
+export default withRouter(AddDeveloper);
