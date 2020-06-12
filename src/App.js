@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
+
 import DisplayBios from './DisplayBios';
 import AddDeveloper from './AddDeveloper';
 import Developer from './Developer';
+import Home from './Home';
+import Navbar from './Navbar';
 
 class App extends Component{
   constructor(props){
@@ -24,24 +30,14 @@ class App extends Component{
 
   render(){
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <DisplayBios developers={this.state.developers}/>
-          <AddDeveloper addDeveloper={this.addDeveloper}/>
-        </header>
-      </div>
+        <Router>
+          <Navbar />
+          <Switch >
+            <Route exact path="/" ><Home /></Route>
+            <Route path="/bios" ><DisplayBios developers={this.state.developers}/></Route>
+            <Route path="/create-bio" ><AddDeveloper addDeveloper={this.addDeveloper}/></Route>
+          </Switch>
+        </Router>
     );
   }
 }
