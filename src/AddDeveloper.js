@@ -25,15 +25,22 @@ class AddDeveloper extends Component {
 
     submitForm = (event) => {
         event.preventDefault();
-        this.props.addDeveloper(
-            new Developer(
-                null,
-                this.state.firstName,
-                this.state.lastName,
-                this.state.favoriteLanguage,
-                this.state.yearStarted
-            )
+        let dev = new Developer(
+            null,
+            this.state.firstName,
+            this.state.lastName,
+            this.state.favoriteLanguage,
+            this.state.yearStarted
         );
+        fetch("https://tech-services-1000201953.uc.r.appspot.com/developer",
+            {
+                method: 'POST',
+                body: JSON.stringify(dev),
+                headers: {'Content-Type':'application/json'}
+            }
+        )
+        .catch(error=>console.log(error));
+    
         this.clearForm();
     }
 
