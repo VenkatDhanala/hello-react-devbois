@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Developer from './Developer';
+import Developer from '../models/Developer';
 import { withRouter } from 'react-router-dom';
 
 class AddDeveloper extends Component {

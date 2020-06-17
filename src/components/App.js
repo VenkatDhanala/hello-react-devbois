@@ -4,24 +4,20 @@ import {
   Switch,
   Route
 } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import DisplayBios from './DisplayBios';
 import AddDeveloper from './AddDeveloper';
 import Home from './Home';
 import Navbar from './Navbar';
+import devActions from '../reducers/devBios';
 
 class App extends Component{
-  constructor(props){
-    super(props);
-    this.state = {
-        developers:[]
-    }
-  }
 
   componentDidMount=()=>{
     fetch("https://tech-services-1000201953.uc.r.appspot.com/developers")
     .then(res=>res.json())
-    .then(devs=>this.setState({developers:devs}))
+    .then(devs=>this.props.fetchDevelopers(devs))
     .catch(error=>console.log("This error occured: "+error));
   }
 
@@ -31,7 +27,7 @@ class App extends Component{
           <Navbar />
           <Switch >
             <Route exact path="/" ><Home /></Route>
-            <Route path="/bios" ><DisplayBios developers={this.state.developers}/></Route>
+            <Route path="/bios" ><DisplayBios developers={this.props.myDevs}/></Route>
             <Route path="/create-bio" ><AddDeveloper /></Route>
           </Switch>
         </Router>
@@ -39,4 +35,8 @@ class App extends Component{
   }
 }
 
-export default App;
+export default connect(({developers})=>({
+  myDevs: developers
+}),{
+  fetchDevelopers:devActions.getAllBiosActionCreator
+})(App);
