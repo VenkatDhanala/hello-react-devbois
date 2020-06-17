@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import Developer from '../models/Developer';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import devActions from '../reducers/devBios';
+
+
 
 class AddDeveloper extends Component {
     constructor(props){
@@ -40,7 +44,8 @@ class AddDeveloper extends Component {
             }
         )
         .catch(error=>console.log(error));
-    
+
+        this.props.addDeveloper(dev);
         this.clearForm();
     }
 
@@ -89,4 +94,8 @@ class AddDeveloper extends Component {
     }
 }
 
-export default withRouter(AddDeveloper);
+export default connect(({developers})=>({
+    developers:developers
+}),{
+    addDeveloper: devActions.addBioActionCreator
+})(withRouter(AddDeveloper));
