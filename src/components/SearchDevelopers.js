@@ -10,8 +10,7 @@ class SearchDevelopers extends Component {
         this.state = {
             queryName:'devsByFirstName',
             queryValue:'',
-            developers:[],
-            displayResults:null
+            developers:[]
         }
     }
 
@@ -20,8 +19,10 @@ class SearchDevelopers extends Component {
         const name = event.target.name;
 
         this.setState({
-            [name]: value
+            [name]: value,
+            developers:[]
         })
+
     }
 
     submitForm = (event) => {
@@ -46,8 +47,7 @@ class SearchDevelopers extends Component {
         .then(response=>response.json())
         .then(response=>{
             this.setState({
-                developers: response.data[this.state.queryName],
-                displayResults: true
+                developers: response.data[this.state.queryName]
             })
         })
     }
@@ -79,19 +79,17 @@ class SearchDevelopers extends Component {
                                 </div>
                             </form>
                         </div>
-                        {
-                          (this.state.displayResults)
-                            ?
-                                this.state.developers.map(
-                                    (dev) => 
-                                        <div>
-                                            <br />
-                                            <DeveloperBio developer={dev} key={dev.id} />
-                                        </div>) 
-                            : 
-                            <span></span>
-                        }
                     </div>
+                    {
+                        (this.state.developers)
+                        ?
+                        
+                            this.state.developers.map(
+                                (dev) => <DeveloperBio developer={dev} key={dev.id} />
+                            ) 
+                        : 
+                        <span></span>
+                    }
                 </div>
             </div>
         )
