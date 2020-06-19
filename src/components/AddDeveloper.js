@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
-import Developer from './Developer';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import Developer from '../models/Developer';
+import devActions from '../reducers/devBios';
+import '../styles/AddDeveloper.css';
+
 
 class AddDeveloper extends Component {
     constructor(props){
@@ -9,7 +14,8 @@ class AddDeveloper extends Component {
             firstName: '',
             lastName: '',
             favoriteLanguage: '',
-            yearStarted:null
+            yearStarted:null,
+            validForm:false
         }
     }
 
@@ -17,14 +23,28 @@ class AddDeveloper extends Component {
         const target = event.target;
         const value = target.value;
         const name = target.name;
+        let isValid = this.validateForm();
 
-        this.setState({
-            [name]:value
-        })
+        this.setState((state)=>({
+            [name]:value,
+            validForm: isValid
+        }))
+    }
+
+    validateForm = () => {
+        let firstNameValid = this.state.firstName ? true : false;
+        let lastNameValid = this.state.lastName ? true : false;
+        let favoriteLanguageValid = this.state.favoriteLanguage ? true : false;
+        let yearStartedValid = this.state.yearStarted ? true : false;
+
+        return firstNameValid && lastNameValid && favoriteLanguageValid && yearStartedValid;
     }
 
     submitForm = (event) => {
         event.preventDefault();
+        if(!this.validateForm())
+            return;
+
         let dev = new Developer(
             null,
             this.state.firstName,
@@ -40,7 +60,8 @@ class AddDeveloper extends Component {
             }
         )
         .catch(error=>console.log(error));
-    
+
+        this.props.addDeveloper(dev);
         this.clearForm();
     }
 
@@ -49,7 +70,8 @@ class AddDeveloper extends Component {
             firstName:'',
             lastName:'',
             favoriteLanguage:'',
-            yearStarted: null
+            yearStarted: null,
+            validForm:false
         });
         document.getElementById('devForm').reset();
         this.props.history.push('/bios');
@@ -84,9 +106,20 @@ class AddDeveloper extends Component {
                         </form>
                     </div>
                 </div>
+                {
+                    (this.state.validForm)
+                    ?
+                        <div id="errorMessage"></div>
+                    :
+                        <div id="errorMessage">All fields must be filled out</div>
+                }
             </div>
         )
     }
 }
 
-export default withRouter(AddDeveloper);
+export default connect(({developers})=>({
+    developers:developers
+}),{
+    addDeveloper: devActions.addBioActionCreator
+})(withRouter(AddDeveloper));

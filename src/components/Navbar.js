@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-import logo from './logo.svg';
-import './Navbar.css';
+import logo from '../logo.svg';
+import '../styles/Navbar.css';
 
 function Navbar() {
     return (
@@ -18,6 +18,9 @@ function Navbar() {
                 </li>
                 <li className="nav-item" >
                     <Link to="/create-bio" className="nav-link" >Create Bios</Link>
+                </li>
+                <li className="nav-item" >
+                    <Link to="/search" className="nav-link" >Search Bios</Link>
                 </li>
             </ul>
         </nav>
